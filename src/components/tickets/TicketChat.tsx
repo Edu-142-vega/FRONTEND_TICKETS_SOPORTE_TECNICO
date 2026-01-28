@@ -9,7 +9,6 @@ const TicketChat = ({ ticketId }: Props) => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
 
-  // Cargar mensajes al abrir el chat
   useEffect(() => {
     const loadMessages = async () => {
       try {
@@ -28,7 +27,7 @@ const TicketChat = ({ ticketId }: Props) => {
 
     try {
       const sent = await messagesService.sendMessage(ticketId, newMessage);
-      setMessages([...messages, sent]); // Actualizar lista localmente
+      setMessages([...messages, sent]);
       setNewMessage('');
     } catch (err) {
       alert("No se pudo enviar el mensaje");
@@ -66,7 +65,7 @@ const TicketChat = ({ ticketId }: Props) => {
   );
 };
 
-// Estilos rápidos
+
 const chatContainer: React.CSSProperties = {
   marginTop: '20px',
   padding: '20px',

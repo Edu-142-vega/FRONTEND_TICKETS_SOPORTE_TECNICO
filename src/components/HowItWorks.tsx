@@ -1,4 +1,4 @@
-// src/components/HowItWorks.tsx
+
 import React from 'react';
 
 const HowItWorks = () => {

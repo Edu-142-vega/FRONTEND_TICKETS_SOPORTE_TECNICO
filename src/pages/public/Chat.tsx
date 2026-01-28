@@ -10,7 +10,6 @@ export default function Chat() {
   
   const scrollRef = useRef(null);
 
-  // Auto-scroll al final cuando llega un mensaje nuevo
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -21,7 +20,6 @@ export default function Chat() {
     e.preventDefault();
     if (!mensaje.trim()) return;
 
-    // Añadir el mensaje del usuario
     const nuevoMensaje = {
       id: Date.now(),
       texto: mensaje,
@@ -31,7 +29,6 @@ export default function Chat() {
     setHistorial([...historial, nuevoMensaje]);
     setMensaje('');
 
-    // Simular una respuesta automática después de 1 segundo
     setTimeout(() => {
       setHistorial(prev => [...prev, {
         id: Date.now() + 1,
@@ -44,7 +41,6 @@ export default function Chat() {
   return (
     <div className="container py-4">
       <div className="card shadow mx-auto" style={{ maxWidth: '600px', height: '80vh' }}>
-        {/* Cabecera del Chat */}
         <div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">
           <div className="d-flex align-items-center">
             <img 
@@ -58,7 +54,6 @@ export default function Chat() {
           <button className="btn btn-sm btn-light" onClick={() => navigate(-1)}>Volver</button>
         </div>
 
-        {/* Cuerpo del Chat */}
         <div 
           className="card-body bg-light" 
           style={{ overflowY: 'auto' }}
@@ -76,7 +71,6 @@ export default function Chat() {
           ))}
         </div>
 
-        {/* Input de Texto */}
         <div className="card-footer bg-white border-top-0">
           <form onSubmit={enviarMensaje} className="input-group">
             <input 

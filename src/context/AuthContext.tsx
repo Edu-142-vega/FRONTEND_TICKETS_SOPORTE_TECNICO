@@ -1,4 +1,4 @@
-// src/context/AuthContext.tsx
+
 import React, { createContext, useContext, useState } from 'react';
 
 interface AuthContextType {
@@ -13,7 +13,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState(() => JSON.parse(localStorage.getItem('user') || 'null'));
 
   const login = (userData: any) => {
-    // Simulamos el guardado del token/usuario que viene del backend
     localStorage.setItem('user', JSON.stringify(userData));
     setUser(userData);
   };

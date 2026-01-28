@@ -21,7 +21,6 @@ const Dashboard = () => {
     <div style={{ padding: '30px' }}>
       <h2 style={{ marginBottom: '25px' }}>Panel de Control Administrativo</h2>
       
-      {/* TARJETAS DE ESTADÍSTICAS */}
       <div style={gridContainer}>
         <StatCard title="Total Tickets" value={stats.total} color="#3498db" />
         <StatCard title="Abiertos" value={stats.open} color="#e74c3c" />
@@ -29,16 +28,15 @@ const Dashboard = () => {
         <StatCard title="Finalizados" value={stats.closed} color="#2ecc71" />
       </div>
 
-      {/* TABLA DE ACTIVIDAD RECIENTE */}
       <div style={{ marginTop: '40px' }}>
         <h3>Actividad Reciente</h3>
-        <TicketsTable /> {/* Reutilizamos la tabla que ya conectamos */}
+        <TicketsTable /> 
       </div>
     </div>
   );
 };
 
-// Componente pequeño para las tarjetas
+
 const StatCard = ({ title, value, color }: any) => (
   <div style={{ ...cardStyle, borderLeft: `5px solid ${color}` }}>
     <span style={{ color: '#7f8c8d', fontSize: '0.9rem' }}>{title}</span>

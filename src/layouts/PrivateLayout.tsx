@@ -1,4 +1,4 @@
-// src/layouts/PrivateLayout.tsx
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -9,7 +9,6 @@ interface PrivateLayoutProps {
 const PrivateLayout: React.FC<PrivateLayoutProps> = ({ children }) => {
   return (
     <div>
-      {/* Barra de navegación o header */}
       <header>
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
           <div className="container-fluid">
@@ -30,8 +29,6 @@ const PrivateLayout: React.FC<PrivateLayoutProps> = ({ children }) => {
           </div>
         </nav>
       </header>
-
-      {/* Contenido principal de la página */}
       <main>{children}</main>
     </div>
   );

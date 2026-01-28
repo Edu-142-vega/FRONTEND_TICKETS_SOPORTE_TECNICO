@@ -1,21 +1,19 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
-// IMPORTACIONES DE TUS PÁGINAS
 import Home from './pages/public/Home';
 import Login from './pages/public/Login';
 import Register from './pages/public/Register';
 import CrearTicket from './pages/public/CrearTicket';
-import TicketsTable from './components/tickets/TicketsTable';
+import TicketsTable from './components/tickets/TicketsTable'; // Este es el que manda
 import Dashboard from './pages/admin/Dashboard';
 import Chat from './pages/public/Chat'; 
 
-// IMPORTACIÓN DE COMPONENTES GLOBALES
 import Navbar from "./components/Navbar"; 
 
 function App() {
   const [user, setUser] = useState<any>(null);
-  const [isReady, setIsReady] = useState(false); // 👈 Control de carga inicial
+  const [isReady, setIsReady] = useState(false); 
 
   useEffect(() => {
     const initAuth = () => {
@@ -30,13 +28,12 @@ function App() {
           localStorage.removeItem('token');
         }
       }
-      setIsReady(true); // 👈 Marcamos como listo después de revisar el storage
+      setIsReady(true); 
     };
     
     initAuth();
   }, []);
 
-  // ⚠️ IMPORTANTE: Si no está listo, no renderizamos las rutas para evitar redirecciones erróneas
   if (!isReady) return null;
 
   return (
@@ -44,16 +41,15 @@ function App() {
       <Navbar user={user} /> 
 
       <Routes>
-        {/* RUTAS PÚBLICAS */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {/* RUTAS PROTEGIDAS */}
         <Route 
           path="/crear-ticket" 
           element={user ? <CrearTicket /> : <Navigate to="/login" />} 
         />
+        {/* Aquí es donde se cargan tus tickets */}
         <Route 
           path="/mis-tickets" 
           element={user ? <TicketsTable /> : <Navigate to="/login" />} 
@@ -63,13 +59,11 @@ function App() {
           element={user ? <Chat /> : <Navigate to="/login" />} 
         />
 
-        {/* RUTA DE ADMINISTRADOR */}
         <Route 
           path="/admin/dashboard" 
           element={user?.role === 'ADMIN' ? <Dashboard /> : <Navigate to="/" />} 
         />
 
-        {/* Redirección por defecto */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>

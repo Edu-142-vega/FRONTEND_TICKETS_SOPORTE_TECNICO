@@ -6,7 +6,6 @@ const Navbar = ({ user }: { user: any }) => {
   const handleLogout = () => {
     localStorage.removeItem('user');
     localStorage.removeItem('token');
-    // Usamos reload para limpiar el estado de la App completamente
     window.location.href = '/login';
   };
 
@@ -20,7 +19,6 @@ const Navbar = ({ user }: { user: any }) => {
       alignItems: 'center',
       boxShadow: '0 2px 10px rgba(0,0,0,0.2)'
     }}>
-      {/* Logo sin errores de atributos */}
       <Link to="/" style={{ color: '#3498db', fontWeight: 'bold', textDecoration: 'none', fontSize: '1.2rem' }}>
         🚀 SOPORTE APP
       </Link>
@@ -30,7 +28,6 @@ const Navbar = ({ user }: { user: any }) => {
         
         {user ? (
           <>
-            {/* ✅ AGREGADO: Enlace al Chat solo para logueados */}
             <Link to="/chat" style={{ margin: '0 10px', color: '#f1c40f', textDecoration: 'none', fontWeight: 'bold' }}>
               💬 Chat
             </Link>

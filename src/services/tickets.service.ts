@@ -1,38 +1,49 @@
-import { api } from '../api';
+import { api } from "../api";
 
-export interface Ticket {
-  id: string;
+export type CreateTicketPayload = {
+  titulo: string;
   descripcion: string;
-  estado: string;
-  prioridad: string;
-  usuarioId?: string;
-  tecnicoId?: string;
-}
+  username?: string;
+};
 
 export const ticketsService = {
-  getTickets: async () => {
-    const response = await api.get('/tickets');
-    return response.data;
+  // 🔹 LEE CORRECTAMENTE la paginación de Nest
+  getTickets: async (params?: { page?: number; limit?: number }) => {
+    try {
+      const response = await api.get("/tickets", {
+        params: {
+          page: params?.page ?? 1,
+          limit: params?.limit ?? 50,
+        },
+      });
+
+      const data = response.data?.data ?? response.data;
+
+      // nestjs-typeorm-paginate devuelve { items, meta }
+      if (Array.isArray(data?.items)) {
+        return data.items;
+      }
+
+      // fallback por si algún día devuelve array directo
+      if (Array.isArray(data)) {
+        return data;
+      }
+
+      return [];
+    } catch (error) {
+      console.error("❌ Error getTickets:", error);
+      return [];
+    }
   },
 
-  getByUserId: async (userId: string) => {
-    const response = await api.get(`/tickets/user/${userId}`);
-    return response.data;
+  // ❗ Por ahora NO se puede filtrar por usuario
+  getByUserId: async () => {
+    return await ticketsService.getTickets();
   },
 
-  assignTechnician: async (ticketId: string, tecnicoId: string) => {
-    const response = await api.patch(`/tickets/${ticketId}/assign`, { tecnicoId });
+  // 🔹 CREATE (esto ya lo tenías bien)
+  createTicket: async (payload: CreateTicketPayload) => {
+    const response = await api.post("/tickets", payload);
     return response.data;
   },
-
-  createTicket: async (ticketData: any) => {
-    const response = await api.post('/tickets', ticketData);
-    return response.data;
-  },
-
-  getCategories: async () => {
-    const response = await api.get('/categories');
-    const rawData = response?.data?.data?.items || response?.data?.items || response?.data?.data || response?.data || [];
-    return Array.isArray(rawData) ? rawData : [];
-  }
 };

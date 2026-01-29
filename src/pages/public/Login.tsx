@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { authService } from '../../services/auth.service';
+import { useAuth } from '../../context/AuthContext'; // ✅ Importamos el contexto
 
 const Login = () => {
+  const { login } = useAuth(); // ✅ Obtenemos la función login del contexto
   const [formData, setFormData] = useState({
     correo: '',
     password: ''
@@ -31,21 +33,28 @@ const Login = () => {
 
       const data = await authService.login(credentials);
 
+      // ✅ Validamos que recibimos el token y el usuario
       if (data && data.access_token) {
-        localStorage.setItem('token', data.access_token);
+        // Guardamos en el contexto (esto ya maneja el localStorage por ti)
+        login({
+          user: data.user,
+          token: data.access_token
+        });
 
         alert("¡Sesión iniciada!");
 
+        // Redirección según el rol
         if (data.user?.role === 'ADMIN') {
           navigate('/admin/dashboard');
         } else {
-          navigate('/mis-tickets');
+          navigate('/mis-tickets'); // 👈 Te sugiero mandarlo a sus tickets directo
         }
-
-        window.location.reload();
+        
+        // ❌ Ya no necesitas window.location.reload() si usas el Contexto correctamente
       }
 
     } catch (err: any) {
+      // Capturamos el error 401 que vimos antes en tu consola
       const mensaje = err.response?.data?.message;
       setError(Array.isArray(mensaje) ? mensaje[0] : mensaje || "Correo o contraseña incorrectos");
     } finally {
@@ -56,16 +65,19 @@ const Login = () => {
   return (
     <div style={containerStyle}>
       <form onSubmit={handleSubmit} style={formStyle}>
-        <h2 style={{ textAlign: 'center', marginBottom: '1.5rem' }}>Iniciar Sesión</h2>
+        <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
+          <h2 style={{ fontWeight: 'bold', color: '#2c3e50' }}>Bienvenido</h2>
+          <p style={{ color: '#7f8c8d', fontSize: '0.9rem' }}>Ingresa tus credenciales</p>
+        </div>
         
         {error && (
-          <p style={{ color: 'red', textAlign: 'center', fontSize: '0.9rem', marginBottom: '1rem' }}>
+          <div style={errorBanner}>
             {error}
-          </p>
+          </div>
         )}
 
         <div style={inputGroup}>
-          <label>Correo Electrónico</label>
+          <label style={labelStyle}>Correo Electrónico</label>
           <input
             type="email"
             name="correo"
@@ -78,7 +90,7 @@ const Login = () => {
         </div>
 
         <div style={inputGroup}>
-          <label>Contraseña</label>
+          <label style={labelStyle}>Contraseña</label>
           <input
             type="password"
             name="password"
@@ -99,17 +111,20 @@ const Login = () => {
         </button>
 
         <p style={{ marginTop: '1.5rem', textAlign: 'center', fontSize: '0.9rem' }}>
-          ¿No tienes cuenta? <Link to="/register" style={{ color: '#3498db', textDecoration: 'none' }}>Regístrate aquí</Link>
+          ¿No tienes cuenta? <Link to="/register" style={{ color: '#3498db', fontWeight: 'bold', textDecoration: 'none' }}>Regístrate aquí</Link>
         </p>
       </form>
     </div>
   );
 };
 
-const containerStyle: React.CSSProperties = { display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh', padding: '20px' };
-const formStyle: React.CSSProperties = { background: '#fff', padding: '2.5rem', borderRadius: '10px', boxShadow: '0 4px 20px rgba(0,0,0,0.1)', width: '100%', maxWidth: '400px' };
-const inputGroup: React.CSSProperties = { marginBottom: '1rem', display: 'flex', flexDirection: 'column' };
-const inputStyle = { padding: '12px', marginTop: '5px', borderRadius: '5px', border: '1px solid #ddd', fontSize: '1rem' };
-const buttonStyle = { width: '100%', padding: '12px', background: '#2c3e50', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer', fontWeight: 'bold' as const };
+// Estilos mantenidos y mejorados para consistencia visual
+const containerStyle: React.CSSProperties = { display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh', padding: '20px', background: '#f4f7f6' };
+const formStyle: React.CSSProperties = { background: '#fff', padding: '2.5rem', borderRadius: '15px', boxShadow: '0 10px 25px rgba(0,0,0,0.05)', width: '100%', maxWidth: '400px' };
+const inputGroup: React.CSSProperties = { marginBottom: '1.2rem', display: 'flex', flexDirection: 'column' };
+const labelStyle: React.CSSProperties = { fontSize: '0.85rem', fontWeight: 'bold', color: '#2c3e50', marginBottom: '5px' };
+const inputStyle = { padding: '12px', marginTop: '5px', borderRadius: '8px', border: '1px solid #ddd', fontSize: '1rem', outline: 'none' };
+const buttonStyle = { width: '100%', padding: '12px', background: '#2c3e50', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold', marginTop: '10px' };
+const errorBanner: React.CSSProperties = { backgroundColor: '#fdeaea', color: '#eb5757', padding: '10px', borderRadius: '8px', textAlign: 'center', fontSize: '0.85rem', marginBottom: '1rem', border: '1px solid #f5c2c2' };
 
 export default Login;

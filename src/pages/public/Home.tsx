@@ -4,7 +4,6 @@ import HowItWorks from '../../components/HowItWorks';
 export default function Home() {
   return (
     <>
-      {/* HERO CON FONDO */}
       <div
         style={{
           width: '100%',
@@ -17,7 +16,6 @@ export default function Home() {
           position: 'relative',
         }}
       >
-        {/* Overlay oscuro para que el texto se lea bien */}
         <div
           style={{
             position: 'absolute',
@@ -27,7 +25,6 @@ export default function Home() {
           }}
         />
 
-        {/* Contenido Principal */}
         <div
           style={{
             position: 'relative',
@@ -40,7 +37,6 @@ export default function Home() {
             color: 'white',
           }}
         >
-          {/* HERO TEXT */}
           <div className="container text-center mb-5">
             <h1 className="fw-bold mb-3" style={{ fontSize: '3.5rem' }}>Soporte de Tickets</h1>
             <p className="fs-5 opacity-75 mx-auto" style={{ maxWidth: '700px' }}>
@@ -63,7 +59,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* FEATURES CARDS */}
           <div className="container">
             <div className="row g-4">
               <div className="col-md-4">
@@ -103,7 +98,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* SECCIÓN ADICIONAL: Cómo funciona (Aquí activamos el import gris) */}
       <section style={{ backgroundColor: '#f8f9fa', padding: '5rem 0' }}>
         <div className="container">
           <HowItWorks />

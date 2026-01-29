@@ -31,25 +31,17 @@ const Login = () => {
 
       const data = await authService.login(credentials);
 
-      // ✅ CAMBIO CRUCIAL:
-      // data ahora contiene { access_token, user } gracias al cambio en el Backend
       if (data && data.access_token) {
-        // 1. Guardamos el token para las peticiones a la API
         localStorage.setItem('token', data.access_token);
-        
-        // 2. Guardamos el usuario como STRING para que App.tsx pueda leerlo con JSON.parse
-        localStorage.setItem('user', JSON.stringify(data.user));
 
         alert("¡Sesión iniciada!");
 
-        // 3. Redirigir según el rol
         if (data.user?.role === 'ADMIN') {
           navigate('/admin/dashboard');
         } else {
           navigate('/mis-tickets');
         }
 
-        // 4. Recarga para que el Navbar vea al usuario logueado inmediatamente
         window.location.reload();
       }
 
@@ -114,7 +106,6 @@ const Login = () => {
   );
 };
 
-// --- Estilos (se mantienen igual que los tuyos) ---
 const containerStyle: React.CSSProperties = { display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh', padding: '20px' };
 const formStyle: React.CSSProperties = { background: '#fff', padding: '2.5rem', borderRadius: '10px', boxShadow: '0 4px 20px rgba(0,0,0,0.1)', width: '100%', maxWidth: '400px' };
 const inputGroup: React.CSSProperties = { marginBottom: '1rem', display: 'flex', flexDirection: 'column' };

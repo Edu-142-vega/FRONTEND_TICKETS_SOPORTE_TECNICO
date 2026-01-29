@@ -32,7 +32,6 @@ const Register = () => {
     setLoading(true);
 
     try {
-      // MAPEADO DE DATOS: Aseguramos que los nombres coincidan con el DTO
       const datosParaBackend = {
         nombre: formData.nombre,   
         email: formData.correo,    
@@ -129,7 +128,6 @@ const Register = () => {
   );
 };
 
-// Estilos consistentes
 const containerStyle: React.CSSProperties = { display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh', padding: '20px' };
 const formStyle: React.CSSProperties = { background: '#fff', padding: '2rem', borderRadius: '10px', boxShadow: '0 4px 20px rgba(0,0,0,0.1)', width: '100%', maxWidth: '400px' };
 const inputGroup: React.CSSProperties = { marginBottom: '1rem', display: 'flex', flexDirection: 'column' };

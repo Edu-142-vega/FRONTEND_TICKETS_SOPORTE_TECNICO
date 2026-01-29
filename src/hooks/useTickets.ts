@@ -1,27 +1,25 @@
 import { useState, useEffect } from 'react';
-import { TicketsService, type Ticket } from '../services/tickets.service';
+import { ticketsService, type Ticket } from '../services/tickets.service';
 
-const useTickets = (userId: string) => {
+export const useTickets = (userId?: string) => {
   const [tickets, setTickets] = useState<Ticket[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchTickets = async () => {
-      setLoading(true);
       try {
-        const data = await TicketsService.getByUserId(userId);
+        const data = userId 
+          ? await ticketsService.getByUserId(userId) 
+          : await ticketsService.getTickets();
         setTickets(data);
-      } catch (error) {
-        console.error('Error al obtener los tickets:', error);
+      } catch (err) {
+        console.error('Error al cargar tickets', err);
       } finally {
         setLoading(false);
       }
     };
-
     fetchTickets();
   }, [userId]);
 
   return { tickets, loading };
 };
-
-export default useTickets;

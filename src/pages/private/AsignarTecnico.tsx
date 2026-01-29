@@ -1,9 +1,8 @@
-
-import React, { useState, useEffect } from 'react';
-import { TicketsService } from '../../services/tickets.service';
+import { useState, useEffect } from 'react';
+import { ticketsService } from '../../services/tickets.service';
 import { useNavigate, useParams } from 'react-router-dom';
 
-const AsignarTecnico: React.FC = () => {
+const AsignarTecnico = () => {
   const [tecnicos, setTecnicos] = useState<any[]>([]); 
   const [tecnicoId, setTecnicoId] = useState('');
   const [loading, setLoading] = useState(false);
@@ -11,7 +10,6 @@ const AsignarTecnico: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-
     setTecnicos([{ id: '1', nombre: 'Juan Pérez' }, { id: '2', nombre: 'Ana García' }]);
   }, []);
 
@@ -19,11 +17,12 @@ const AsignarTecnico: React.FC = () => {
     setLoading(true);
     try {
       if (ticketId && tecnicoId) {
-        await TicketsService.assignTechnician(ticketId, tecnicoId);
+        await ticketsService.assignTechnician(ticketId, tecnicoId);
         navigate('/dashboard'); 
       }
     } catch (error) {
       console.error('Error al asignar técnico:', error);
+      alert('Error al asignar el técnico');
     } finally {
       setLoading(false);
     }

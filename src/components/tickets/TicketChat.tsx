@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { messagesService } from '../../services/messages.service';
 
 interface Props {
@@ -6,10 +6,9 @@ interface Props {
 }
 
 const TicketChat = ({ ticketId }: Props) => {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<any[]>([]);
   const [newMessage, setNewMessage] = useState('');
 
-  // Cargar mensajes al abrir el chat
   useEffect(() => {
     const loadMessages = async () => {
       try {
@@ -28,7 +27,7 @@ const TicketChat = ({ ticketId }: Props) => {
 
     try {
       const sent = await messagesService.sendMessage(ticketId, newMessage);
-      setMessages([...messages, sent]); // Actualizar lista localmente
+      setMessages([...messages, sent]); 
       setNewMessage('');
     } catch (err) {
       alert("No se pudo enviar el mensaje");
@@ -36,69 +35,26 @@ const TicketChat = ({ ticketId }: Props) => {
   };
 
   return (
-    <div style={chatContainer}>
-      <h4 style={{ borderBottom: '1px solid #ddd', paddingBottom: '10px' }}>Conversación de Soporte</h4>
-      
-      <div style={messageList}>
+    <div className="p-3 bg-white rounded shadow-sm">
+      <h4>Chat de Soporte</h4>
+      <div style={{ height: '300px', overflowY: 'auto' }} className="d-flex flex-column gap-2 mb-3">
         {messages.map((msg: any) => (
-          <div key={msg.id} style={{
-            ...messageItem,
-            alignSelf: msg.sender?.role === 'ADMIN' ? 'flex-start' : 'flex-end',
-            backgroundColor: msg.sender?.role === 'ADMIN' ? '#f1f0f0' : '#dcf8c6'
-          }}>
-            <strong>{msg.sender?.name}:</strong>
-            <p style={{ margin: 0 }}>{msg.content}</p>
+          <div key={msg.id} className={`p-2 rounded ${msg.sender?.role === 'ADMIN' ? 'bg-light' : 'bg-success text-white align-self-end'}`}>
+            <strong>{msg.sender?.name}:</strong> {msg.content}
           </div>
         ))}
       </div>
-
-      <form onSubmit={handleSend} style={{ display: 'flex', gap: '10px' }}>
+      <form onSubmit={handleSend} className="d-flex gap-2">
         <input 
-          type="text" 
-          value={newMessage} 
+          className="form-control"
+          value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
           placeholder="Escribe un mensaje..."
-          style={{ flex: 1, padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }}
         />
-        <button type="submit" style={sendButton}>Enviar</button>
+        <button type="submit" className="btn btn-primary">Enviar</button>
       </form>
     </div>
   );
-};
-
-// Estilos rápidos
-const chatContainer: React.CSSProperties = {
-  marginTop: '20px',
-  padding: '20px',
-  background: '#fff',
-  borderRadius: '8px',
-  boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
-};
-
-const messageList: React.CSSProperties = {
-  height: '300px',
-  overflowY: 'auto',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '10px',
-  marginBottom: '15px',
-  padding: '10px'
-};
-
-const messageItem: React.CSSProperties = {
-  maxWidth: '80%',
-  padding: '10px',
-  borderRadius: '10px',
-  fontSize: '0.9rem'
-};
-
-const sendButton = {
-  padding: '10px 20px',
-  background: '#2c3e50',
-  color: 'white',
-  border: 'none',
-  borderRadius: '5px',
-  cursor: 'pointer'
 };
 
 export default TicketChat;

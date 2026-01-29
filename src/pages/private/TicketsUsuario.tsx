@@ -1,17 +1,20 @@
-
-import React, { useEffect, useState } from 'react';
-import { TicketsService } from '../../services/tickets.service';
+import { useEffect, useState } from 'react';
+import { ticketsService } from '../../services/tickets.service';
 import { useAuth } from '../../context/AuthContext';
 
-const TicketsUsuario: React.FC = () => {
+const TicketsUsuario = () => {
   const { user } = useAuth(); 
   const [tickets, setTickets] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchTickets = async () => {
-      if (user) {
-        const data = await TicketsService.getByUserId(user.username);
-        setTickets(data);
+      if (user && user.username) {
+        try {
+          const data = await ticketsService.getByUserId(user.username);
+          setTickets(data);
+        } catch (error) {
+          console.error("Error al obtener mis tickets", error);
+        }
       }
     };
 
@@ -42,7 +45,7 @@ const TicketsUsuario: React.FC = () => {
             ))
           ) : (
             <tr>
-              <td colSpan={4}>No tienes tickets solicitados.</td>
+              <td colSpan={4} className="text-center">No tienes tickets solicitados.</td>
             </tr>
           )}
         </tbody>

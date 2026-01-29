@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ticketsService } from '../../services/tickets.service';
 
 const TicketsTable = () => {
@@ -72,7 +72,6 @@ const TicketsTable = () => {
   );
 };
 
-// Estilos básicos en JS para no depender de archivos externos
 const headerStyle = { padding: '15px', fontWeight: 'bold' };
 const cellStyle = { padding: '15px' };
 

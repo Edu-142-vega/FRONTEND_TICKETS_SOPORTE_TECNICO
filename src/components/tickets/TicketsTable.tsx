@@ -2,13 +2,12 @@ import { useEffect, useState } from 'react';
 import { ticketsService } from '../../services/tickets.service';
 
 const TicketsTable = () => {
-  const [tickets, setTickets] = useState([]);
+  const [tickets, setTickets] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchTickets = async () => {
       try {
-        // Usamos el servicio que ya maneja la estructura de paginación
         const data = await ticketsService.getTickets();
         setTickets(Array.isArray(data) ? data : []);
       } catch (error) {
@@ -21,16 +20,16 @@ const TicketsTable = () => {
     fetchTickets();
   }, []);
 
-  if (loading) return <div style={{ textAlign: 'center', marginTop: '50px', color: 'white' }}>Cargando tus tickets...</div>;
+  if (loading) return <div style={{ textAlign: 'center', marginTop: '50px' }}>Cargando tus tickets...</div>;
 
   return (
     <div style={{ padding: '20px', width: '100%' }}>
-      <h2 style={{ marginBottom: '20px', color: 'white' }}>Mis Tickets de Soporte</h2>
+      <h2 style={{ marginBottom: '20px', color: '#2c3e50' }}>Mis Tickets de Soporte</h2>
       
-      <div style={{ overflowX: 'auto', boxShadow: '0 4px 6px rgba(0,0,0,0.3)', borderRadius: '8px' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse', backgroundColor: '#1e1e1e', color: 'white' }}>
+      <div style={{ overflowX: 'auto', boxShadow: '0 4px 6px rgba(0,0,0,0.1)', borderRadius: '8px' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', backgroundColor: 'white' }}>
           <thead>
-            <tr style={{ backgroundColor: '#333', color: 'white', textAlign: 'left' }}>
+            <tr style={{ backgroundColor: '#2c3e50', color: 'white', textAlign: 'left' }}>
               <th style={headerStyle}>ID</th>
               <th style={headerStyle}>Asunto</th>
               <th style={headerStyle}>Prioridad</th>
@@ -40,30 +39,25 @@ const TicketsTable = () => {
           </thead>
           <tbody>
             {tickets.length > 0 ? (
-              tickets.map((ticket: any) => {
-                const prio = translatePriority(ticket.prioridad);
-                return (
-                  <tr key={ticket.id} style={{ borderBottom: '1px solid #444' }}>
-                    <td style={{ ...cellStyle, color: '#888', fontSize: '0.8rem' }}>#{ticket.id?.substring(0, 8)}</td>
-                    <td style={{ ...cellStyle, fontWeight: 'bold' }}>{ticket.titulo}</td>
-                    <td style={cellStyle}>
-                      <span style={getPriorityStyle(ticket.prioridad)}>
-                        {prio}
-                      </span>
-                    </td>
-                    <td style={cellStyle}>
-                      <span style={getStatusStyle(ticket.estado)}>
-                        {String(ticket.estado).toUpperCase()}
-                      </span>
-                    </td>
-                    <td style={{ ...cellStyle, color: '#aaa' }}>
-                      {ticket.fecha_asignacion 
-                        ? new Date(ticket.fecha_asignacion).toLocaleDateString() 
-                        : 'Sin fecha'}
-                    </td>
-                  </tr>
-                );
-              })
+              tickets.map((ticket: any) => (
+                <tr key={ticket.id} style={{ borderBottom: '1px solid #eee' }}>
+                  <td style={cellStyle}>#{ticket.id}</td>
+                  <td style={cellStyle}>{ticket.title}</td>
+                  <td style={cellStyle}>
+                    <span style={getPriorityStyle(ticket.priority)}>
+                      {ticket.priority}
+                    </span>
+                  </td>
+                  <td style={cellStyle}>
+                    <span style={getStatusStyle(ticket.status)}>
+                      {ticket.status}
+                    </span>
+                  </td>
+                  <td style={cellStyle}>
+                    {ticket.createdAt ? new Date(ticket.createdAt).toLocaleDateString() : 'N/A'}
+                  </td>
+                </tr>
+              ))
             ) : (
               <tr>
                 <td colSpan={5} style={{ textAlign: 'center', padding: '30px', color: '#7f8c8d' }}>
@@ -81,42 +75,22 @@ const TicketsTable = () => {
 const headerStyle = { padding: '15px', fontWeight: 'bold' };
 const cellStyle = { padding: '15px' };
 
-// Función para traducir prioridad de Backend a Español
-const translatePriority = (priority: string) => {
-  const p = String(priority).toUpperCase();
-  if (p === 'URGENT') return 'URGENTE';
-  if (p === 'HIGH') return 'ALTA';
-  if (p === 'MEDIUM') return 'MEDIA';
-  return 'BAJA';
-};
-
-const getPriorityStyle = (priority: string) => {
-  const p = String(priority).toUpperCase();
-  let color = '#2ecc71'; // Verde para LOW/DEFAULT
-  if (p === 'URGENT') color = '#e74c3c'; // Rojo
-  if (p === 'HIGH') color = '#f39c12';   // Naranja
-  if (p === 'MEDIUM') color = '#3498db'; // Azul
-
-  return {
-    padding: '5px 12px',
-    borderRadius: '4px',
-    fontSize: '0.75rem',
-    fontWeight: 'bold' as const,
-    backgroundColor: color,
-    color: 'white',
-    display: 'inline-block',
-    minWidth: '80px',
-    textAlign: 'center' as const
-  };
-};
+const getPriorityStyle = (priority: string) => ({
+  padding: '4px 8px',
+  borderRadius: '4px',
+  fontSize: '0.85rem',
+  fontWeight: 'bold',
+  backgroundColor: priority === 'HIGH' ? '#e74c3c' : priority === 'MEDIUM' ? '#f1c40f' : '#3498db',
+  color: 'white'
+});
 
 const getStatusStyle = (status: string) => ({
-  padding: '4px 10px',
+  padding: '4px 8px',
   borderRadius: '12px',
-  fontSize: '0.75rem',
+  fontSize: '0.85rem',
   fontWeight: 'bold' as const,
-  border: `1px solid #17a2b8`,
-  color: '#17a2b8'
+  border: `1px solid ${status === 'OPEN' ? '#2ecc71' : '#95a5a6'}`,
+  color: status === 'OPEN' ? '#27ae60' : '#7f8c8d'
 });
 
 export default TicketsTable;

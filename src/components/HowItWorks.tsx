@@ -1,3 +1,4 @@
+
 const HowItWorks = () => {
   const steps = [
     {

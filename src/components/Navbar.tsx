@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 
 const Navbar = ({ user }: { user: any }) => {
+
   const handleLogout = () => {
     localStorage.removeItem('user');
     localStorage.removeItem('token');
@@ -17,9 +18,8 @@ const Navbar = ({ user }: { user: any }) => {
       alignItems: 'center',
       boxShadow: '0 2px 10px rgba(0,0,0,0.2)'
     }}>
-      {/* CAMBIO AQUÍ: De SOPORTE APP a Support Tech */}
       <Link to="/" style={{ color: '#3498db', fontWeight: 'bold', textDecoration: 'none', fontSize: '1.2rem' }}>
-        🚀 Support Tech
+        🚀 SOPORTE APP
       </Link>
 
       <div>

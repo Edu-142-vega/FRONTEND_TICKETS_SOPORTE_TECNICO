@@ -9,7 +9,6 @@ const PrivateRoutes: React.FC = () => (
   <Routes>
     <Route element={<RequireAuth />}>
       <Route path="tickets" element={<TicketsUsuario />} />
-
       <Route path="asignar-tecnico" element={<AsignarTecnico />} />
     </Route>
   </Routes>

@@ -1,15 +1,15 @@
-import { useEffect, useState } from 'react';
 import { ticketsService } from '../../services/tickets.service';
+import { useEffect, useState } from 'react';
 
 const TicketsTable = () => {
-  const [tickets, setTickets] = useState<any[]>([]);
+  const [tickets, setTickets] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchTickets = async () => {
       try {
         const data = await ticketsService.getTickets();
-        setTickets(Array.isArray(data) ? data : []);
+        setTickets(data);
       } catch (error) {
         console.error("Error al obtener tickets:", error);
       } finally {
@@ -54,7 +54,7 @@ const TicketsTable = () => {
                     </span>
                   </td>
                   <td style={cellStyle}>
-                    {ticket.createdAt ? new Date(ticket.createdAt).toLocaleDateString() : 'N/A'}
+                    {new Date(ticket.createdAt).toLocaleDateString()}
                   </td>
                 </tr>
               ))
@@ -88,7 +88,6 @@ const getStatusStyle = (status: string) => ({
   padding: '4px 8px',
   borderRadius: '12px',
   fontSize: '0.85rem',
-  fontWeight: 'bold' as const,
   border: `1px solid ${status === 'OPEN' ? '#2ecc71' : '#95a5a6'}`,
   color: status === 'OPEN' ? '#27ae60' : '#7f8c8d'
 });

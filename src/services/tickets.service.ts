@@ -1,5 +1,15 @@
 import { api } from "../api";
 
+export interface Ticket {
+  id: number;
+  titulo: string;
+  descripcion: string;
+  estado: string;
+  usuarioId: number;
+  tecnicoId?: number;
+  createdAt?: string;
+}
+
 export type CreateTicketPayload = {
   titulo: string;
   descripcion: string;
@@ -7,7 +17,6 @@ export type CreateTicketPayload = {
 };
 
 export const ticketsService = {
-  // 🔹 LEE CORRECTAMENTE la paginación de Nest
   getTickets: async (params?: { page?: number; limit?: number }) => {
     try {
       const response = await api.get("/tickets", {
@@ -19,15 +28,8 @@ export const ticketsService = {
 
       const data = response.data?.data ?? response.data;
 
-      // nestjs-typeorm-paginate devuelve { items, meta }
-      if (Array.isArray(data?.items)) {
-        return data.items;
-      }
-
-      // fallback por si algún día devuelve array directo
-      if (Array.isArray(data)) {
-        return data;
-      }
+      if (Array.isArray(data?.items)) return data.items;
+      if (Array.isArray(data)) return data;
 
       return [];
     } catch (error) {
@@ -36,12 +38,28 @@ export const ticketsService = {
     }
   },
 
-  // ❗ Por ahora NO se puede filtrar por usuario
-  getByUserId: async () => {
-    return await ticketsService.getTickets();
+ getByUserId: async (userId: number) => {
+  try {
+    const response = await api.get(`/tickets/user/${userId}`);
+    const data = response.data?.data ?? response.data;
+
+    if (Array.isArray(data?.items)) return data.items;
+    if (Array.isArray(data)) return data;
+
+    return [];
+  } catch (error) {
+    console.error("❌ Error getByUserId:", error);
+    return [];
+  }
+},
+   assignTechnician: async (ticketId: number, tecnicoId: number) => {
+    const response = await api.put(
+      `/tickets/${ticketId}/assign`,
+      { tecnicoId }
+    );
+    return response.data;
   },
 
-  // 🔹 CREATE (esto ya lo tenías bien)
   createTicket: async (payload: CreateTicketPayload) => {
     const response = await api.post("/tickets", payload);
     return response.data;

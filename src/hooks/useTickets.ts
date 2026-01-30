@@ -9,7 +9,7 @@ export const useTickets = (userId?: string) => {
     const fetchTickets = async () => {
       try {
         const data = userId 
-          ? await ticketsService.getByUserId(userId) 
+          ? await ticketsService.getByUserId(Number(userId))
           : await ticketsService.getTickets();
         setTickets(data);
       } catch (err) {

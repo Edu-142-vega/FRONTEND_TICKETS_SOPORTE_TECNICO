@@ -3,23 +3,31 @@ import { ticketsService } from '../../services/tickets.service';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const AsignarTecnico = () => {
-  const [tecnicos, setTecnicos] = useState<any[]>([]); 
-  const [tecnicoId, setTecnicoId] = useState('');
+  const [tecnicos, setTecnicos] = useState<any[]>([]);
+  const [tecnicoId, setTecnicoId] = useState<string>('');
   const [loading, setLoading] = useState(false);
-  const { ticketId } = useParams();
+
+  const { ticketId } = useParams<{ ticketId: string }>();
   const navigate = useNavigate();
 
   useEffect(() => {
-    setTecnicos([{ id: '1', nombre: 'Juan Pérez' }, { id: '2', nombre: 'Ana García' }]);
+    setTecnicos([
+      { id: 1, nombre: 'Juan Pérez' },
+      { id: 2, nombre: 'Ana García' },
+    ]);
   }, []);
 
   const handleAsignarTecnico = async () => {
+    if (!ticketId || !tecnicoId) return;
+
     setLoading(true);
     try {
-      if (ticketId && tecnicoId) {
-        await ticketsService.assignTechnician(ticketId, tecnicoId);
-        navigate('/dashboard'); 
-      }
+      await ticketsService.assignTechnician(
+        Number(ticketId),
+        Number(tecnicoId)
+      );
+
+      navigate('/dashboard');
     } catch (error) {
       console.error('Error al asignar técnico:', error);
       alert('Error al asignar el técnico');
@@ -31,6 +39,7 @@ const AsignarTecnico = () => {
   return (
     <div className="container mt-4">
       <h1>Asignar Técnico a Ticket</h1>
+
       <div className="form-group">
         <label htmlFor="tecnico">Seleccionar Técnico</label>
         <select

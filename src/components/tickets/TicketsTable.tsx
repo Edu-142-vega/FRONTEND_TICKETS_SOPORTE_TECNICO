@@ -1,6 +1,7 @@
 import { ticketsService } from '../../services/tickets.service';
 import { useEffect, useState } from 'react';
 
+
 const TicketsTable = () => {
   const [tickets, setTickets] = useState([]);
   const [loading, setLoading] = useState(true);

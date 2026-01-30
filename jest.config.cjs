@@ -1,13 +1,13 @@
 /** @type {import("jest").Config} */
 module.exports = {
   testEnvironment: "jsdom",
-setupFilesAfterEnv: ["<rootDir>/src/setupTests.js"],
+  setupFilesAfterEnv: ["<rootDir>/src/setupTests.ts"],
   testMatch: ["<rootDir>/src/**/__tests__/**/*.test.(ts|tsx)"],
   clearMocks: true,
 
   moduleNameMapper: {
     "\\.(css|less|sass|scss)$": "identity-obj-proxy",
-    "\\.(png|jpg|jpeg|gif|webp|svg)$": "<rootDir>/src/__mocks__/fileMock.ts"
+    "\\.(png|jpg|jpeg|gif|webp|svg)$": "<rootDir>/src/__mocks__/fileMock.ts",
   },
 
   transform: {
@@ -15,10 +15,10 @@ setupFilesAfterEnv: ["<rootDir>/src/setupTests.js"],
       "ts-jest",
       {
         useESM: true,
-        tsconfig: "<rootDir>/tsconfig.jest.json"
-      }
-    ]
+        tsconfig: "<rootDir>/tsconfig.jest.json",
+      },
+    ],
   },
 
-  extensionsToTreatAsEsm: [".ts", ".tsx"]
+  extensionsToTreatAsEsm: [".ts", ".tsx"],
 };

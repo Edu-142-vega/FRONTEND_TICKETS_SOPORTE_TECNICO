@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# No subir JS generados dentro de src (excepto setupTests.js)
+src/**/*.js
+!src/setupTests.js

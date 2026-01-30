@@ -29,7 +29,6 @@ const PrivateLayout: React.FC<PrivateLayoutProps> = ({ children }) => {
           </div>
         </nav>
       </header>
-
       <main>{children}</main>
     </div>
   );

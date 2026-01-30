@@ -1,7 +1,7 @@
 /** @type {import("jest").Config} */
 module.exports = {
   testEnvironment: "jsdom",
-  setupFilesAfterEnv: ["<rootDir>/src/setupTests.ts"],
+setupFilesAfterEnv: ["<rootDir>/src/setupTests.js"],
   testMatch: ["<rootDir>/src/**/__tests__/**/*.test.(ts|tsx)"],
   clearMocks: true,
 

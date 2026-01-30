@@ -1,12 +1,11 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Navbar = ({ user }: { user: any }) => {
-  const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem('user');
     localStorage.removeItem('token');
-    navigate('/login');
+    window.location.href = '/login';
   };
 
   return (
@@ -20,7 +19,7 @@ const Navbar = ({ user }: { user: any }) => {
       boxShadow: '0 2px 10px rgba(0,0,0,0.2)'
     }}>
       <Link to="/" style={{ color: '#3498db', fontWeight: 'bold', textDecoration: 'none', fontSize: '1.2rem' }}>
-        🚀 Support Tech
+        🚀 SOPORTE APP
       </Link>
 
       <div>

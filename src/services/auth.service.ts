@@ -1,19 +1,16 @@
-import { api } from '../api';
+import axios from 'axios';
+
+const API_URL = 'http://127.0.0.1:3000';
 
 export const authService = {
   login: async (credentials: any) => {
-    // Esto llama a http://localhost:3000/api/auth/login
-    const response = await api.post('/auth/login', credentials);
+    const response = await axios.post(`${API_URL}/auth/login`, credentials);
+    
     if (response.data.access_token) {
       localStorage.setItem('token', response.data.access_token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
     }
-    return response.data;
-  },
-
-  register: async (userData: any) => {
-    // ✅ Esto llama a http://localhost:3000/api/auth/register
-    const response = await api.post('/auth/register', userData);
+    
     return response.data;
   },
 

@@ -30,7 +30,7 @@ const Dashboard = () => {
 
       <div style={{ marginTop: '40px' }}>
         <h3>Actividad Reciente</h3>
-        <TicketsTable />
+        <TicketsTable /> 
       </div>
     </div>
   );

@@ -22,5 +22,13 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", "user.seed.ts"]
+  "include": ["src"]
+  ,
+"exclude": [
+  "src/db/**",
+  "src/**/*.test.ts",
+  "src/**/*.test.tsx",
+  "src/**/__tests__/**"
+]
+
 }

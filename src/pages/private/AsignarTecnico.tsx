@@ -1,29 +1,30 @@
-
-import React, { useState, useEffect } from 'react';
-import { TicketsService } from '../../services/tickets.service';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 const AsignarTecnico: React.FC = () => {
-  const [tecnicos, setTecnicos] = useState<any[]>([]); 
-  const [tecnicoId, setTecnicoId] = useState('');
+  const [tecnicos, setTecnicos] = useState<any[]>([]);
+  const [tecnicoId, setTecnicoId] = useState("");
   const [loading, setLoading] = useState(false);
   const { ticketId } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
-
-    setTecnicos([{ id: '1', nombre: 'Juan Pérez' }, { id: '2', nombre: 'Ana García' }]);
+    setTecnicos([
+      { id: "1", nombre: "Juan Pérez" },
+      { id: "2", nombre: "Ana García" },
+    ]);
   }, []);
 
   const handleAsignarTecnico = async () => {
     setLoading(true);
     try {
       if (ticketId && tecnicoId) {
-        await TicketsService.assignTechnician(ticketId, tecnicoId);
-        navigate('/dashboard'); 
+        console.log("Asignando técnico", { ticketId, tecnicoId });
+
+        navigate("/dashboard");
       }
     } catch (error) {
-      console.error('Error al asignar técnico:', error);
+      console.error("Error al asignar técnico:", error);
     } finally {
       setLoading(false);
     }
@@ -32,6 +33,7 @@ const AsignarTecnico: React.FC = () => {
   return (
     <div className="container mt-4">
       <h1>Asignar Técnico a Ticket</h1>
+
       <div className="form-group">
         <label htmlFor="tecnico">Seleccionar Técnico</label>
         <select
@@ -54,7 +56,7 @@ const AsignarTecnico: React.FC = () => {
         className="btn btn-primary mt-3"
         disabled={loading || !tecnicoId}
       >
-        {loading ? 'Asignando...' : 'Asignar Técnico'}
+        {loading ? "Asignando..." : "Asignar Técnico"}
       </button>
     </div>
   );

@@ -1,18 +1,21 @@
-
-import React, { useEffect, useState } from 'react';
-import { TicketsService } from '../../services/tickets.service';
-import { useAuth } from '../../context/AuthContext';
+import React, { useEffect, useState } from "react";
+import { ticketsService } from "../../services/tickets.service";
+import { useAuth } from "../../context/AuthContext";
 
 const TicketsUsuario: React.FC = () => {
-  const { user } = useAuth(); 
+  const { user } = useAuth();
   const [tickets, setTickets] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchTickets = async () => {
-      if (user) {
-        const data = await TicketsService.getByUserId(user.username);
-        setTickets(data);
-      }
+      if (!user) return;
+
+      const data = await ticketsService.getTickets();
+      const filtrados = Array.isArray(data)
+        ? data.filter((t: any) => t?.username === user.username || t?.user?.username === user.username)
+        : [];
+
+      setTickets(filtrados);
     };
 
     fetchTickets();

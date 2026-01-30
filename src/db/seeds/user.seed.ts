@@ -1,11 +1,10 @@
 import { DataSource } from 'typeorm';
-import { User } from '../../users/entities/user.entity'; // Ajusta la ruta a tu entidad
+import { User } from '../../users/entities/user.entity'; 
 import * as bcrypt from 'bcrypt';
 
 export const seedUsers = async (dataSource: DataSource) => {
   const userRepository = dataSource.getRepository(User);
 
-  // 1. Datos de prueba
   const usersData = [
     {
       nombre: 'Admin Soporte',
@@ -24,7 +23,6 @@ export const seedUsers = async (dataSource: DataSource) => {
   console.log('🌱 Iniciando el seeding de usuarios...');
 
   for (const u of usersData) {
-    // Verificar si el usuario ya existe para no duplicar
     const exists = await userRepository.findOneBy({ email: u.email });
     
     if (!exists) {

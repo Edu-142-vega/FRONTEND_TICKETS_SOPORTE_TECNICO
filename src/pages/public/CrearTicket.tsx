@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ticketsService } from '../../services/tickets.service';
 
@@ -16,7 +16,6 @@ const CrearTicket = () => {
     setLoading(true);
 
     try {
-      // ✅ Enviamos SOLO lo que el servidor no rechaza
       const payload = {
         titulo: formData.titulo,
         descripcion: formData.descripcion

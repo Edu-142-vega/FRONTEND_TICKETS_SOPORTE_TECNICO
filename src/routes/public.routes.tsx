@@ -1,19 +1,19 @@
-// routes/public.routes.tsx
-import React from 'react';
-import { Route, Routes } from 'react-router-dom';
-import CrearTicket from '../pages/public/CrearTicket'; // Página para crear un ticket
-import Login from '../pages/public/Login'; // Página de login
-import Register from '../pages/public/Register'; // Página de registro
-import PublicLayout from '../layouts/PublicLayout'; // Layout para páginas públicas
+import { Routes, Route } from "react-router-dom";
+import PublicLayout from "../layouts/PublicLayout";
 
-const PublicRoutes: React.FC = () => {
+import Home from "../pages/public/Home";
+import Login from "../pages/public/Login";
+import Register from "../pages/public/Register";
+import Chat from "../pages/public/Chat";
+
+const PublicRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<PublicLayout children={undefined} />}>
-        {/* Las rutas deben estar dentro de PublicLayout */}
-        <Route path="crear-ticket" element={<CrearTicket />} />
+      <Route path="/" element={<PublicLayout />}>
+        <Route index element={<Home />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
+        <Route path="chat" element={<Chat />} />
       </Route>
     </Routes>
   );

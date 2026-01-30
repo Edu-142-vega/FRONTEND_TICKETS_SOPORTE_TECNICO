@@ -4,9 +4,9 @@ const Header = () => {
   return (
     <header style={{ 
       display: 'flex', 
-      justifyContent: 'space-between', // Separa el título de los links
-      padding: '15px 10%',           // Espaciado lateral
-      background: '#2c3e50',           // Azul oscuro como en la imagen
+      justifyContent: 'space-between', 
+      padding: '15px 10%',           
+      background: '#2c3e50',           
       color: 'white',
       alignItems: 'center',
       width: '100%',

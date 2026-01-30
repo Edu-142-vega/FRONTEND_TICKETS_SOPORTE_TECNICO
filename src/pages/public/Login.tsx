@@ -1,62 +1,57 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { authService } from '../../services/auth.service';
-import { useAuth } from '../../context/AuthContext'; // ✅ Importamos el contexto
+import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { authService } from "../../services/auth.service";
 
 const Login = () => {
-  const { login } = useAuth(); // ✅ Obtenemos la función login del contexto
   const [formData, setFormData] = useState({
-    correo: '',
-    password: ''
+    correo: "",
+    password: "",
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setLoading(true);
 
     try {
       const credentials = {
         email: formData.correo,
-        password: formData.password
+        password: formData.password,
       };
 
       const data = await authService.login(credentials);
 
-      // ✅ Validamos que recibimos el token y el usuario
       if (data && data.access_token) {
-        // Guardamos en el contexto (esto ya maneja el localStorage por ti)
-        login({
-          user: data.user,
-          token: data.access_token
-        });
+        localStorage.setItem("token", data.access_token);
+        localStorage.setItem("user", JSON.stringify(data.user));
 
         alert("¡Sesión iniciada!");
 
-        // Redirección según el rol
-        if (data.user?.role === 'ADMIN') {
-          navigate('/admin/dashboard');
+        if (data.user?.role === "ADMIN") {
+          navigate("/admin/dashboard");
         } else {
-          navigate('/mis-tickets'); // 👈 Te sugiero mandarlo a sus tickets directo
+          navigate("/mis-tickets");
         }
-        
-        // ❌ Ya no necesitas window.location.reload() si usas el Contexto correctamente
-      }
 
+        window.location.reload();
+      }
     } catch (err: any) {
-      // Capturamos el error 401 que vimos antes en tu consola
       const mensaje = err.response?.data?.message;
-      setError(Array.isArray(mensaje) ? mensaje[0] : mensaje || "Correo o contraseña incorrectos");
+      setError(
+        Array.isArray(mensaje)
+          ? mensaje[0]
+          : mensaje || "Correo o contraseña incorrectos"
+      );
     } finally {
       setLoading(false);
     }
@@ -65,20 +60,26 @@ const Login = () => {
   return (
     <div style={containerStyle}>
       <form onSubmit={handleSubmit} style={formStyle}>
-        <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
-          <h2 style={{ fontWeight: 'bold', color: '#2c3e50' }}>Bienvenido</h2>
-          <p style={{ color: '#7f8c8d', fontSize: '0.9rem' }}>Ingresa tus credenciales</p>
-        </div>
-        
-        {error && (
-          <div style={errorBanner}>
-            {error}
-          </div>
-        )}
+        <h2 style={{ textAlign: "center", marginBottom: "1.5rem" }}>
+          Iniciar Sesión
+        </h2>
 
+        {error && (
+          <p
+            style={{
+              color: "red",
+              textAlign: "center",
+              fontSize: "0.9rem",
+              marginBottom: "1rem",
+            }}
+          >
+            {error}
+          </p>
+        )}
         <div style={inputGroup}>
-          <label style={labelStyle}>Correo Electrónico</label>
+          <label htmlFor="correo">Correo Electrónico</label>
           <input
+            id="correo"
             type="email"
             name="correo"
             value={formData.correo}
@@ -88,10 +89,10 @@ const Login = () => {
             placeholder="pepito@gmail.com"
           />
         </div>
-
         <div style={inputGroup}>
-          <label style={labelStyle}>Contraseña</label>
+          <label htmlFor="password">Contraseña</label>
           <input
+            id="password"
             type="password"
             name="password"
             value={formData.password}
@@ -102,29 +103,64 @@ const Login = () => {
           />
         </div>
 
-        <button 
-          type="submit" 
+        <button
+          type="submit"
           disabled={loading}
           style={{ ...buttonStyle, opacity: loading ? 0.7 : 1 }}
         >
-          {loading ? 'Entrando...' : 'Ingresar'}
+          {loading ? "Entrando..." : "Ingresar"}
         </button>
 
-        <p style={{ marginTop: '1.5rem', textAlign: 'center', fontSize: '0.9rem' }}>
-          ¿No tienes cuenta? <Link to="/register" style={{ color: '#3498db', fontWeight: 'bold', textDecoration: 'none' }}>Regístrate aquí</Link>
+        <p style={{ marginTop: "1.5rem", textAlign: "center", fontSize: "0.9rem" }}>
+          ¿No tienes cuenta?{" "}
+          <Link
+            to="/register"
+            style={{ color: "#3498db", textDecoration: "none" }}
+          >
+            Regístrate aquí
+          </Link>
         </p>
       </form>
     </div>
   );
 };
 
-// Estilos mantenidos y mejorados para consistencia visual
-const containerStyle: React.CSSProperties = { display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh', padding: '20px', background: '#f4f7f6' };
-const formStyle: React.CSSProperties = { background: '#fff', padding: '2.5rem', borderRadius: '15px', boxShadow: '0 10px 25px rgba(0,0,0,0.05)', width: '100%', maxWidth: '400px' };
-const inputGroup: React.CSSProperties = { marginBottom: '1.2rem', display: 'flex', flexDirection: 'column' };
-const labelStyle: React.CSSProperties = { fontSize: '0.85rem', fontWeight: 'bold', color: '#2c3e50', marginBottom: '5px' };
-const inputStyle = { padding: '12px', marginTop: '5px', borderRadius: '8px', border: '1px solid #ddd', fontSize: '1rem', outline: 'none' };
-const buttonStyle = { width: '100%', padding: '12px', background: '#2c3e50', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold', marginTop: '10px' };
-const errorBanner: React.CSSProperties = { backgroundColor: '#fdeaea', color: '#eb5757', padding: '10px', borderRadius: '8px', textAlign: 'center', fontSize: '0.85rem', marginBottom: '1rem', border: '1px solid #f5c2c2' };
+const containerStyle: React.CSSProperties = {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  minHeight: "80vh",
+  padding: "20px",
+};
+const formStyle: React.CSSProperties = {
+  background: "#fff",
+  padding: "2.5rem",
+  borderRadius: "10px",
+  boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+  width: "100%",
+  maxWidth: "400px",
+};
+const inputGroup: React.CSSProperties = {
+  marginBottom: "1rem",
+  display: "flex",
+  flexDirection: "column",
+};
+const inputStyle: React.CSSProperties = {
+  padding: "12px",
+  marginTop: "5px",
+  borderRadius: "5px",
+  border: "1px solid #ddd",
+  fontSize: "1rem",
+};
+const buttonStyle: React.CSSProperties = {
+  width: "100%",
+  padding: "12px",
+  background: "#2c3e50",
+  color: "white",
+  border: "none",
+  borderRadius: "5px",
+  cursor: "pointer",
+  fontWeight: "bold",
+};
 
 export default Login;

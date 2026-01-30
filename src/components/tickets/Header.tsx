@@ -5,8 +5,8 @@ const Header = () => {
     <header style={{ 
       display: 'flex', 
       justifyContent: 'space-between', 
-      padding: '15px 10%',         
-      background: '#2c3e50',          
+      padding: '15px 10%',           
+      background: '#2c3e50',           
       color: 'white',
       alignItems: 'center',
       width: '100%',

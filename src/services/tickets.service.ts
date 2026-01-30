@@ -1,67 +1,20 @@
-import { api } from "../api";
-
-export interface Ticket {
-  id: number;
-  titulo: string;
-  descripcion: string;
-  estado: string;
-  usuarioId: number;
-  tecnicoId?: number;
-  createdAt?: string;
-}
-
-export type CreateTicketPayload = {
-  titulo: string;
-  descripcion: string;
-  username?: string;
-};
+import { api } from '../api';
 
 export const ticketsService = {
-  getTickets: async (params?: { page?: number; limit?: number }) => {
-    try {
-      const response = await api.get("/tickets", {
-        params: {
-          page: params?.page ?? 1,
-          limit: params?.limit ?? 50,
-        },
-      });
-
-      const data = response.data?.data ?? response.data;
-
-      if (Array.isArray(data?.items)) return data.items;
-      if (Array.isArray(data)) return data;
-
-      return [];
-    } catch (error) {
-      console.error("❌ Error getTickets:", error);
-      return [];
-    }
+  getTickets: async () => {
+    const response = await api.get('/tickets');
+    return response.data;
   },
 
- getByUserId: async (userId: number) => {
-  try {
-    const response = await api.get(`/tickets/user/${userId}`);
-    const data = response.data?.data ?? response.data;
+  createTicket: async (ticketData: any) => {
+    const response = await api.post('/tickets', ticketData);
+    return response.data;
+  },
 
-    if (Array.isArray(data?.items)) return data.items;
-    if (Array.isArray(data)) return data;
 
-    return [];
-  } catch (error) {
-    console.error("❌ Error getByUserId:", error);
-    return [];
+  getCategories: async () => {
+    const response = await api.get('/categories');
+    const rawData = response?.data?.data?.items || response?.data?.items || response?.data?.data || response?.data || [];
+    return Array.isArray(rawData) ? rawData : [];
   }
-},
-   assignTechnician: async (ticketId: number, tecnicoId: number) => {
-    const response = await api.put(
-      `/tickets/${ticketId}/assign`,
-      { tecnicoId }
-    );
-    return response.data;
-  },
-
-  createTicket: async (payload: CreateTicketPayload) => {
-    const response = await api.post("/tickets", payload);
-    return response.data;
-  },
 };

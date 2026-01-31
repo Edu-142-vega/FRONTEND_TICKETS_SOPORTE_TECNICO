@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { TicketsService } from '../../services/tickets.service';
+import { ticketsService } from '../../services/tickets.service';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const AsignarTecnico: React.FC = () => {
@@ -19,7 +19,7 @@ const AsignarTecnico: React.FC = () => {
     setLoading(true);
     try {
       if (ticketId && tecnicoId) {
-        await TicketsService.assignTechnician(ticketId, tecnicoId);
+        await ticketsService.assignTechnician(ticketId, tecnicoId);
         navigate('/dashboard'); 
       }
     } catch (error) {

@@ -44,7 +44,7 @@ const Register = () => {
   await authService.register(datosParaBackend as any);
 
   alert("¡Cuenta creada con éxito! Ya estás en la base de datos.");
-  // navigate('/login');
+  navigate('/login');
 } catch (err: any) {
   const mensaje = err.response?.data?.message;
   setError(Array.isArray(mensaje) ? mensaje[0] : mensaje || "Error al registrar");

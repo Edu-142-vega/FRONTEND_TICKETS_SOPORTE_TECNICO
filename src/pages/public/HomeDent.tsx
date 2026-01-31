@@ -4,7 +4,7 @@ import HowItWorks from "../../components/HowItWorks";
 export default function HomeDent() {
   const isAuthenticated = !!localStorage.getItem('token');
 
-  const cardStyle = {
+  const cardStyle: React.CSSProperties = {
     transition: 'all 0.3s ease',
     borderRadius: '15px',
     cursor: 'pointer',
@@ -58,27 +58,45 @@ export default function HomeDent() {
             <div className="d-flex justify-content-center gap-3 mt-4 flex-wrap">
               {!isAuthenticated ? (
                 <>
-                  <Link to="/login" className="btn btn-primary btn-lg px-4 shadow">
+                  <Link
+                    to="/login"
+                    className="btn btn-primary btn-lg px-4 shadow"
+                    style={cardStyle}
+                  >
                     Iniciar sesión
                   </Link>
-                  <Link to="/register" className="btn btn-outline-light btn-lg px-4">
+
+                  <Link
+                    to="/register"
+                    className="btn btn-outline-light btn-lg px-4"
+                    style={cardStyle}
+                  >
                     Crear cuenta
                   </Link>
                 </>
               ) : (
                 <>
-                  <Link to="/mis-tickets" className="btn btn-primary btn-lg px-4 shadow">
+                  <Link
+                    to="/mis-tickets"
+                    className="btn btn-primary btn-lg px-4 shadow"
+                    style={cardStyle}
+                  >
                     📋 Ver mis Tickets
                   </Link>
-                  <Link to="/crear-ticket" className="btn btn-success btn-lg px-4 shadow">
+
+                  <Link
+                    to="/crear-ticket"
+                    className="btn btn-success btn-lg px-4 shadow"
+                    style={cardStyle}
+                  >
                     ➕ Nuevo Requerimiento
                   </Link>
                 </>
               )}
             </div>
           </div>
-        </div> {/* CIERRE DEL DIV RELATIVO ZINDEX 2 */}
-      </div> {/* CIERRE DEL DIV DE FONDO */}
+        </div>
+      </div>
 
       <section style={{ backgroundColor: '#f8f9fa', padding: '5rem 0' }}>
         <div className="container">

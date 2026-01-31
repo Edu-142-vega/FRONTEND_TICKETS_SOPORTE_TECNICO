@@ -20,7 +20,8 @@ jobs:
 
       - name: Crear .env de producción
         run: |
-          printf "%s" "${{ secrets.REACT_ENV }}" > .env.production
+          echo "VITE_API_URL=${{ secrets.VITE_API_URL }}" > .env.production
+          echo "Using VITE_API_URL=$(cat .env.production)"
 
       - name: Instalar dependencias
         run: npm ci

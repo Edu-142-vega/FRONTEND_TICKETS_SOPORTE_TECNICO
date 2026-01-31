@@ -40,7 +40,8 @@ const Register = () => {
 
       console.log("Enviando a la base de datos:", datosParaBackend);
       
-      await authService.register(datosParaBackend);
+      await authService.login(datosParaBackend as any);
+
 
       alert("¡Cuenta creada con éxito! Ya estás en la base de datos.");
       navigate('/login');

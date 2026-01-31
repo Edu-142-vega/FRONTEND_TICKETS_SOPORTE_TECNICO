@@ -24,7 +24,6 @@ export default function Home() {
             zIndex: 1,
           }}
         />
-
         <div
           style={{
             position: 'relative',

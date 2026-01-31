@@ -14,11 +14,6 @@ export const authService = {
     return response.data;
   },
 
-  register: async (userData: any) => {
-    const response = await axios.post(`${API_URL}/auth/register`, userData);
-    return response.data;
-  },
-
   logout: () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');

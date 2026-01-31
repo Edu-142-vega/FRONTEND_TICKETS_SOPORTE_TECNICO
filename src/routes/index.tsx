@@ -3,7 +3,7 @@ import PublicLayout from '../layouts/PublicLayout';
 import HomePage from '../pages/public/Home';
 import Login from '../pages/public/Login';
 import Register from '../pages/public/Register';
-import ReservaCreatePage from '../pages/public/ReservaCreatePage';
+import ReservaCreatePage from '../pages/public/ReservaCreatePage'; 
 
 export const AppRoutes = () => {
   return (

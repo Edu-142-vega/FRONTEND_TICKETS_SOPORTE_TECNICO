@@ -1,29 +1,41 @@
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { ticketsService } from "../../services/tickets.service";
 
-import React, { useState, useEffect } from 'react';
-import { ticketsService } from '../../services/tickets.service';
-import { useNavigate, useParams } from 'react-router-dom';
+type Tecnico = {
+  id: string;
+  nombre: string;
+};
 
-const AsignarTecnico: React.FC = () => {
-  const [tecnicos, setTecnicos] = useState<any[]>([]); 
-  const [tecnicoId, setTecnicoId] = useState('');
-  const [loading, setLoading] = useState(false);
-  const { ticketId } = useParams();
+const AsignarTecnico = () => {
+  const [tecnicos, setTecnicos] = useState<Tecnico[]>([]);
+  const [tecnicoId, setTecnicoId] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const { ticketId } = useParams<{ ticketId: string }>();
   const navigate = useNavigate();
 
   useEffect(() => {
-
-    setTecnicos([{ id: '1', nombre: 'Juan Pérez' }, { id: '2', nombre: 'Ana García' }]);
+    // Lista demo (luego puedes traerlos del backend)
+    setTecnicos([
+      { id: "1", nombre: "Juan Pérez" },
+      { id: "2", nombre: "Ana García" },
+    ]);
   }, []);
 
   const handleAsignarTecnico = async () => {
+    if (!ticketId || !tecnicoId) return;
+
     setLoading(true);
     try {
-      if (ticketId && tecnicoId) {
-        await ticketsService.assignTechnician(ticketId, tecnicoId);
-        navigate('/dashboard'); 
-      }
+      console.log("Asignando técnico", { ticketId, tecnicoId });
+
+      await ticketsService.assignTechnician(ticketId, tecnicoId);
+
+      navigate("/dashboard");
     } catch (error) {
-      console.error('Error al asignar técnico:', error);
+      console.error("Error al asignar técnico:", error);
+      alert("No se pudo asignar el técnico");
     } finally {
       setLoading(false);
     }
@@ -32,6 +44,7 @@ const AsignarTecnico: React.FC = () => {
   return (
     <div className="container mt-4">
       <h1>Asignar Técnico a Ticket</h1>
+
       <div className="form-group">
         <label htmlFor="tecnico">Seleccionar Técnico</label>
         <select
@@ -54,7 +67,7 @@ const AsignarTecnico: React.FC = () => {
         className="btn btn-primary mt-3"
         disabled={loading || !tecnicoId}
       >
-        {loading ? 'Asignando...' : 'Asignar Técnico'}
+        {loading ? "Asignando..." : "Asignar Técnico"}
       </button>
     </div>
   );

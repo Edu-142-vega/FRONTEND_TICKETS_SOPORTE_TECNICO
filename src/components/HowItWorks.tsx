@@ -1,6 +1,4 @@
 
-import React from 'react';
-
 const HowItWorks = () => {
   const steps = [
     {

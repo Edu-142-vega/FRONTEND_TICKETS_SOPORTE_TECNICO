@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { dashboardService } from '../../services/dashboard.service';
 import TicketsTable from '../../components/tickets/TicketsTable';
 
@@ -35,7 +35,6 @@ const Dashboard = () => {
     </div>
   );
 };
-
 
 const StatCard = ({ title, value, color }: any) => (
   <div style={{ ...cardStyle, borderLeft: `5px solid ${color}` }}>

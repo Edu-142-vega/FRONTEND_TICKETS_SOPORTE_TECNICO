@@ -7,15 +7,15 @@ const PublicLayout = () => {
       display: 'flex', 
       flexDirection: 'column', 
       minHeight: '100vh', 
-      width: '100vw'   
+      width: '100vw'      
     }}>
       <Header /> 
       
       <main style={{ 
-        flex: 1,         
+        flex: 1,           
         display: 'flex', 
         flexDirection: 'column',
-        alignItems: 'center',
+        alignItems: 'center', 
         padding: '40px 20px'
       }}>
         <Outlet /> 

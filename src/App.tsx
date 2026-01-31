@@ -5,7 +5,7 @@ import Home from './pages/public/Home';
 import Login from './pages/public/Login';
 import Register from './pages/public/Register';
 import CrearTicket from './pages/public/CrearTicket';
-import TicketsTable from './components/tickets/TicketsTable'; // Este es el que manda
+import TicketsTable from './components/tickets/TicketsTable';
 import Dashboard from './pages/admin/Dashboard';
 import Chat from './pages/public/Chat'; 
 
@@ -49,7 +49,6 @@ function App() {
           path="/crear-ticket" 
           element={user ? <CrearTicket /> : <Navigate to="/login" />} 
         />
-        {/* Aquí es donde se cargan tus tickets */}
         <Route 
           path="/mis-tickets" 
           element={user ? <TicketsTable /> : <Navigate to="/login" />} 

@@ -17,7 +17,9 @@ export const authService = {
   },
 
   register: async (userData: any) => {
-    const response = await api.post('/auth/register', userData);
+    console.log("BASE URL:", import.meta.env.VITE_API_URL);
+
+    const response = await api.post("/auth/register", userData);
 
     // Soporta ambos formatos
     const payload = response.data?.data ?? response.data;

@@ -46,6 +46,7 @@ const Register = () => {
   alert("¡Cuenta creada con éxito! Ya estás en la base de datos.");
   navigate('/login');
 } catch (err: any) {
+  console.error("ERROR DETALLADO AL REGISTRAR:", err);
   const mensaje = err.response?.data?.message;
   setError(Array.isArray(mensaje) ? mensaje[0] : mensaje || "Error al registrar");
 } finally {

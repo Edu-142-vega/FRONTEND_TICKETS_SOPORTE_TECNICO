@@ -9,6 +9,7 @@ const Register = () => {
     password: '',
     confirmPassword: ''
   });
+
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -32,33 +33,31 @@ const Register = () => {
     setLoading(true);
 
     try {
-      const datosParaBackend = {
-        nombre: formData.nombre,   
-        email: formData.correo,    
-        password: formData.password
-      };
+  const datosParaBackend = {
+    nombre: formData.nombre,
+    email: formData.correo,
+    password: formData.password
+  };
 
-      console.log("Enviando a la base de datos:", datosParaBackend);
-      
-      await authService.login(datosParaBackend as any);
+  console.log("Enviando a la base de datos:", datosParaBackend);
 
+  await authService.register(datosParaBackend as any);
 
-      alert("¡Cuenta creada con éxito! Ya estás en la base de datos.");
-      navigate('/login');
-
-    } catch (err: any) {
-      const mensaje = err.response?.data?.message;
-      setError(Array.isArray(mensaje) ? mensaje[0] : mensaje || "Error al registrar");
-    } finally {
-      setLoading(false);
-    }
+  alert("¡Cuenta creada con éxito! Ya estás en la base de datos.");
+  // navigate('/login');
+} catch (err: any) {
+  const mensaje = err.response?.data?.message;
+  setError(Array.isArray(mensaje) ? mensaje[0] : mensaje || "Error al registrar");
+} finally {
+  setLoading(false);
+}
   };
 
   return (
     <div style={containerStyle}>
       <form onSubmit={handleSubmit} style={formStyle}>
         <h2 style={{ textAlign: 'center', marginBottom: '1.5rem' }}>Crear Cuenta</h2>
-        
+
         {error && (
           <p style={{ color: 'red', textAlign: 'center', fontSize: '0.9rem', marginBottom: '1rem' }}>
             {error}
@@ -113,8 +112,8 @@ const Register = () => {
           />
         </div>
 
-        <button 
-          type="submit" 
+        <button
+          type="submit"
           disabled={loading}
           style={{ ...buttonStyle, opacity: loading ? 0.7 : 1 }}
         >
@@ -122,17 +121,55 @@ const Register = () => {
         </button>
 
         <p style={{ marginTop: '1rem', textAlign: 'center' }}>
-          ¿Ya tienes cuenta? <Link to="/login" style={{color: '#3498db', textDecoration: 'none'}}>Inicia sesión</Link>
+          ¿Ya tienes cuenta?{' '}
+          <Link to="/login" style={{ color: '#3498db', textDecoration: 'none' }}>
+            Inicia sesión
+          </Link>
         </p>
       </form>
     </div>
   );
 };
 
-const containerStyle: React.CSSProperties = { display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh', padding: '20px' };
-const formStyle: React.CSSProperties = { background: '#fff', padding: '2rem', borderRadius: '10px', boxShadow: '0 4px 20px rgba(0,0,0,0.1)', width: '100%', maxWidth: '400px' };
-const inputGroup: React.CSSProperties = { marginBottom: '1rem', display: 'flex', flexDirection: 'column' };
-const inputStyle = { padding: '10px', marginTop: '5px', borderRadius: '5px', border: '1px solid #ddd' };
-const buttonStyle = { width: '100%', padding: '12px', background: '#3498db', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer', fontWeight: 'bold' as const };
+const containerStyle: React.CSSProperties = {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  minHeight: '80vh',
+  padding: '20px'
+};
+
+const formStyle: React.CSSProperties = {
+  background: '#fff',
+  padding: '2rem',
+  borderRadius: '10px',
+  boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+  width: '100%',
+  maxWidth: '400px'
+};
+
+const inputGroup: React.CSSProperties = {
+  marginBottom: '1rem',
+  display: 'flex',
+  flexDirection: 'column'
+};
+
+const inputStyle: React.CSSProperties = {
+  padding: '10px',
+  marginTop: '5px',
+  borderRadius: '5px',
+  border: '1px solid #ddd'
+};
+
+const buttonStyle: React.CSSProperties = {
+  width: '100%',
+  padding: '12px',
+  background: '#3498db',
+  color: 'white',
+  border: 'none',
+  borderRadius: '5px',
+  cursor: 'pointer',
+  fontWeight: 'bold'
+};
 
 export default Register;

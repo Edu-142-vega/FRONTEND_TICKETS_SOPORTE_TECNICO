@@ -20,8 +20,14 @@ jobs:
 
       - name: Crear .env de producción
         run: |
-          echo "VITE_API_URL=${{ secrets.VITE_API_URL }}" > .env.production
-          echo "Using VITE_API_URL=$(cat .env.production)"
+          # Si el secret ya contiene 'VITE_API_URL=', no lo duplicamos
+          if [[ "${{ secrets.VITE_API_URL }}" == VITE_API_URL=* ]]; then
+            echo "${{ secrets.VITE_API_URL }}" > .env.production
+          else
+            echo "VITE_API_URL=${{ secrets.VITE_API_URL }}" > .env.production
+          fi
+          echo "Contenido de .env.production (ofuscado):"
+          sed 's/=.*/=*** /' .env.production
 
       - name: Instalar dependencias
         run: npm ci

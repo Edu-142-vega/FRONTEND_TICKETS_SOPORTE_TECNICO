@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'; 
+const rawUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000'; 
+// Eliminar espacios y punto final accidental
+const API_URL = rawUrl.trim().replace(/\.$/, "");
 
 export const api = axios.create({
   baseURL: API_URL,

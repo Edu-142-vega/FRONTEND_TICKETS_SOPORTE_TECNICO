@@ -14,7 +14,7 @@ const TicketChat = ({ ticketId }: Props) => {
       try {
         const data = await messagesService.getMessagesByTicket(ticketId);
         setMessages(Array.isArray(data) ? data : []);
-      } catch (err) {
+      } catch {
         console.error("Error cargando mensajes");
         setMessages([]);
       }
@@ -28,9 +28,9 @@ const TicketChat = ({ ticketId }: Props) => {
 
     try {
       const sent = await messagesService.sendMessage(ticketId, newMessage);
-      setMessages((prev) => [...prev, sent]); // ✅ mejor que usar messages directo
+      setMessages((prev) => [...prev, sent]);
       setNewMessage("");
-    } catch (err) {
+    } catch {
       alert("No se pudo enviar el mensaje");
     }
   };
@@ -47,7 +47,8 @@ const TicketChat = ({ ticketId }: Props) => {
             key={msg.id}
             style={{
               ...messageItem,
-              alignSelf: msg.sender?.role === "ADMIN" ? "flex-start" : "flex-end",
+              alignSelf:
+                msg.sender?.role === "ADMIN" ? "flex-start" : "flex-end",
               backgroundColor:
                 msg.sender?.role === "ADMIN" ? "#f1f0f0" : "#dcf8c6",
             }}

@@ -18,20 +18,41 @@ const Navbar = ({ user }: { user: any }) => {
       alignItems: 'center',
       boxShadow: '0 2px 10px rgba(0,0,0,0.2)'
     }}>
-      <Link to="/" style={{ color: '#3498db', fontWeight: 'bold', textDecoration: 'none', fontSize: '1.2rem' }}>
-        🚀 SOPORTE APP
+      <Link 
+        to="/" 
+        style={{ 
+          color: '#3498db', 
+          fontWeight: 'bold', 
+          textDecoration: 'none', 
+          fontSize: '1.2rem' 
+        }}
+      >
+        Support Tech
       </Link>
 
       <div>
-        <Link to="/" style={{ margin: '0 10px', color: 'white', textDecoration: 'none' }}>Inicio</Link>
+        <Link to="/" style={{ margin: '0 10px', color: 'white', textDecoration: 'none' }}>
+          Inicio
+        </Link>
         
         {user ? (
           <>
-            <Link to="/chat" style={{ margin: '0 10px', color: '#f1c40f', textDecoration: 'none', fontWeight: 'bold' }}>
-              💬 Chat
+            <Link 
+              to="/chat" 
+              style={{ 
+                margin: '0 10px', 
+                color: '#f1c40f', 
+                textDecoration: 'none', 
+                fontWeight: 'bold' 
+              }}
+            >
+              Chat
             </Link>
 
-            <Link to="/mis-tickets" style={{ margin: '0 10px', color: 'white', textDecoration: 'none' }}>
+            <Link 
+              to="/mis-tickets" 
+              style={{ margin: '0 10px', color: 'white', textDecoration: 'none' }}
+            >
               Mis Tickets
             </Link>
 
@@ -52,14 +73,17 @@ const Navbar = ({ user }: { user: any }) => {
             </button>
           </>
         ) : (
-          <Link to="/login" style={{ 
-            margin: '0 10px', 
-            color: 'white', 
-            background: '#3498db', 
-            padding: '5px 15px', 
-            borderRadius: '5px', 
-            textDecoration: 'none' 
-          }}>
+          <Link 
+            to="/login" 
+            style={{ 
+              margin: '0 10px', 
+              color: 'white', 
+              background: '#3498db', 
+              padding: '5px 15px', 
+              borderRadius: '5px', 
+              textDecoration: 'none' 
+            }}
+          >
             Login
           </Link>
         )}

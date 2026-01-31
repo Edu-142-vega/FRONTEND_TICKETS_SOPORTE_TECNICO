@@ -43,15 +43,15 @@ const Register = () => {
       
       console.log('📤 Enviando registro corregido:', datosParaBackend);
       
-<<<<<<< HEAD
+
       await authService.login(datosParaBackend as any);
 
 
       alert("¡Cuenta creada con éxito! Ya estás en la base de datos.");
-=======
+
       await authService.register(datosParaBackend);
       alert("¡Cuenta creada con éxito!");
->>>>>>> 2edd4e1 (Mejoras en componentes y servicios)
+
       navigate('/login');
 
     } catch (err: any) {
